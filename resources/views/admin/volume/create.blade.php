@@ -22,7 +22,7 @@
     <button type="submit">
                 ADD
                 </button>
-    </div>
+    </div>    
     </form>
 </div>
 @endsection

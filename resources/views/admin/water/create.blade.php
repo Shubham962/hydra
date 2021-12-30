@@ -43,14 +43,16 @@ $volumeData = DB::table('volume')->get();
         </div>
         <div class="addwater Quantity">
             <!-- Single button -->
-            <!-- <select title="Water Quantity per bottle/glass" name="" id="">
-           
+            <select title="Water Quantity per bottle/glass" name="" id="">
+            @if($brandsData)
+                @foreach($brandsData as $key =>$brands)
                 <option value="kjhkj">jghjg</option>
-               
+                @endforeach
+                @endif
             </select> -->
             <input type="text" name="water_quantity" id="water_quantity">
 
-        </div>
+        </div> 
 
         <div class="clearFix">
 
