@@ -21,7 +21,7 @@
     <div class="add-drink water-type-btn">
     <button type="submit">
                 ADD
-                </button>
+                </button> 
     </div>    
     </form>
 </div>
