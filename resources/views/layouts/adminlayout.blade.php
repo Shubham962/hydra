@@ -34,7 +34,7 @@
       </button>
       <ul class="dropdown-menu">
         <li>
-          <a href="#">My Account</a>
+          <a href="{{url('/admin/my-account')}}">My Account</a>
         </li>
 
         <li>
