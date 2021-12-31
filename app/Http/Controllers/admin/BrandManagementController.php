@@ -36,29 +36,29 @@ class BrandManagementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request )
+    public function store(Request $request)
     {
         $this->validate($request, [
-            'brand_name'=> 'required',
+            'brand_name' => 'required',
             'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         if ($request->hasFile('brand_image')) {
             $image = $request->file('brand_image');
-            $name = time().'.'.$image->getClientOriginalExtension();
+            $name = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/uploads/');
             $image->move($destinationPath, $name);
             Brand::create([
-                'brand_name'=>$request->brand_name,
-                'brands_image'=>$name,
+                'brand_name' => $request->brand_name,
+                'brands_image' => $name,
             ]);
             return redirect('/admin/brands')->with(array(
-                'status'=>'success',
+                'status' => 'success',
                 'message' => 'Image Upload successfully',
             ));
-    
-          //  return back()->with('success','Image Upload successfully');
+
+            //  return back()->with('success','Image Upload successfully');
         }
-        
+
         //dd($request->all());
     }
 
@@ -81,8 +81,11 @@ class BrandManagementController extends Controller
      */
     public function edit($id)
     {
-      //dd($id);
-       return view('admin.brands.editBrand');
+        $brandData = Brand::find($id);
+     
+        return view('admin.brands.editBrand')->with([
+            'brandData' => $brandData
+        ]);;
     }
 
     /**
@@ -94,7 +97,7 @@ class BrandManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

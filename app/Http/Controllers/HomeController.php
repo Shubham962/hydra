@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -39,6 +40,10 @@ class HomeController extends Controller
     public function allbrands(){
 
         return view('admin.brands.index');
+    }
+    public function myAccount(){
+        return view('admin.accountSetting');
+        dd(Auth::user());
     }
 
     public function alltype(){

@@ -20,6 +20,7 @@ Auth::routes();
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::get('/users', 'HomeController@allUsers');
+    Route::get('/my-account', 'HomeController@myAccount');
     Route::get('/waterdirnk', 'HomeController@allwaterdirnk');
     
     Route::get('/type', 'HomeController@alltype');
@@ -29,6 +30,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::get('/brands', 'admin\BrandManagementController@index');
     Route::get('/brand/create', 'admin\BrandManagementController@create');
     Route::get('/brand/edit/{id}', 'admin\BrandManagementController@edit');
+    Route::any('/brand/update/{id}', 'admin\BrandManagementController@update');
     Route::any('/brand/store', 'admin\BrandManagementController@store');
     Route::get('/type', 'admin\TypeManagementController@index');
     Route::any('/type/create','admin\TypeManagementController@create');
