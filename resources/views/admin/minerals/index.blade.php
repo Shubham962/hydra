@@ -28,7 +28,10 @@
             @foreach($mineralsData as $key =>$minerals)
             <tr>
                 <td>{{ $minerals->minerals_name}}</td>
-                <td  class="edit-delete"><a href="{{ URL::to('/admin/minerals/edit')}}/{{ $minerals->id}}"><img src="{{ asset('public/assets/images/edit.png')}}" alt="edit">Edit</a><a href="#"><img src="{{ asset('public/assets/images/delete.png')}}" alt="delete">Delete</a></td>
+                <td  class="edit-delete"><a href="{{ URL::to('/admin/minerals/edit')}}/{{ $minerals->id}}">
+                    <img src="{{ asset('public/assets/images/edit.png')}}" alt="edit">Edit</a>
+                <a href="{{ URL::to('/admin/minerals/delete')}}/{{ $minerals->id}}">
+                    <img src="{{ asset('public/assets/images/delete.png')}}" alt="delete">Delete</a></td>
                 <td>Active</td>
             </tr>
             @endforeach

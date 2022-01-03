@@ -27,7 +27,10 @@
                 @foreach($volumeData as $key =>$volume)
             <tr>
                 <td>{{ $volume->quantity}}</td>
-                <td class="edit-delete"><a href="{{ URL::to('/admin/volume/edit')}}/{{ $volume->id}}"><img src="{{ asset('public/assets/images/edit.png')}}" alt="edit">Edit</a><a href="#"><img src="{{ asset('public/assets/images/delete.png')}}" alt="delete">Delete</a></td>
+                <td class="edit-delete"><a href="{{ URL::to('/admin/volume/edit')}}/{{ $volume->id}}">
+                    <img src="{{ asset('public/assets/images/edit.png')}}" alt="edit">Edit</a>
+                    <a href="{{ URL::to('/admin/volume/delete')}}/{{ $volume->id}}">
+                        <img src="{{ asset('public/assets/images/delete.png')}}" alt="delete">Delete</a></td>
                 <td>Active</td>
             </tr>
             @endforeach

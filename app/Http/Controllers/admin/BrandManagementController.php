@@ -56,7 +56,7 @@ class BrandManagementController extends Controller
                 'message' => 'Image Upload successfully',
             ));
 
-            //  return back()->with('success','Image Upload successfully');
+      
         }
 
         //dd($request->all());
@@ -96,8 +96,27 @@ class BrandManagementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        dd($request->all());
+    { 
+        $brandData = Brand::find($id);  
+        //dd($brandData['brands_image']);
+        if ($request->hasFile('brand_image')) {
+            $image = $request->file('brand_image');
+            $imagename = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/uploads/');
+            $image->move($destinationPath, $imagename);
+        }else{
+            $imagename = $brandData;
+        }
+       $brandData = Brand::where('id',$id)->update([
+           'brand_name'=>$request->brand_name,
+           'brands_image'=>$brandData['brands_image']
+       ]);
+       return redirect('/admin/brands')->with(array(
+        'status' => 'success',
+        'message' => 'Image Upload successfully',
+    ));
+      // dd($brandData);
+
     }
 
     /**
@@ -108,6 +127,10 @@ class BrandManagementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Brand::find($id)->delete();
+        return redirect('/admin/brands')->with(array(
+            'status' => 'success',
+            'message' => 'Image Upload successfully',
+        ));
     }
 }
