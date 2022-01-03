@@ -71,7 +71,12 @@ class MineralManagementController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.minerals.editMineralname');
+        
+        $mineralsData = Minerals::find($id);
+     
+        return view('admin.minerals.editMineralname')->with([
+            'mineralsData' => $mineralsData
+        ]);;
     }
 
     /**
@@ -83,8 +88,14 @@ class MineralManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+       // dd($request->all);
+       $mineralsData = Minerals::where('id',$id)->update([
+        'minerals_name'=>$request->minerals_name,
+        
+    ]);
+    return redirect('/admin/minerals');
+     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -94,6 +105,10 @@ class MineralManagementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Minerals::find($id)->delete();
+        return redirect('/admin/minerals')->with(array(
+            'status' => 'success',
+            'message' => 'Image Upload successfully',
+        ));
     }
 }

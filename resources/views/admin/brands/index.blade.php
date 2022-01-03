@@ -39,7 +39,7 @@
                             <img src="{{ asset('public/assets/images/edit.png')}}" alt="edit">
                             Edit
                         </a>
-                        <a href="#">
+                        <a href="{{ URL::to('/admin/brand/delete')}}/{{ $brands->id}}">
                             <img src="{{ asset('public/assets/images/delete.png')}}" alt="delete">
                             Delete
                         </a>

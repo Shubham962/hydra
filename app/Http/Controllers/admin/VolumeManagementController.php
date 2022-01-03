@@ -69,7 +69,12 @@ class VolumeManagementController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.volume.editQuantity');
+       // return view('admin.volume.editQuantity');
+        $volumeData = Volume::find($id);
+     
+        return view('admin.volume.editQuantity')->with([
+            'volumeData' => $volumeData
+        ]);;
     }
 
     /**
@@ -81,7 +86,15 @@ class VolumeManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       // dd($request->all);
+    
+
+       
+     $volumeData = Volume::where('id',$id)->update([
+       'quantity'=>$request->quantity,
+       
+   ]);
+   return redirect('/admin/volume');
     }
 
     /**
@@ -92,6 +105,10 @@ class VolumeManagementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Volume::find($id)->delete();
+        return redirect('/admin/volume')->with(array(
+            'status' => 'success',
+            'message' => 'Image Upload successfully',
+        ));
     }
 }
