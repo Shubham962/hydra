@@ -37,17 +37,16 @@ class VolumeManagementController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'quantity'=> 'required',
+            'quantity' => 'required',
         ]);
 
         Volume::create([
-            'quantity'=>$request->quantity,
+            'quantity' => $request->quantity,
         ]);
         return redirect('/admin/volume')->with(array(
-            'status'=>'success',
+            'status' => 'success',
             'message' => 'Quantity Added Successfully',
         ));
-
     }
 
     /**
@@ -57,7 +56,7 @@ class VolumeManagementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {  
+    {
         //
     }
 
@@ -69,12 +68,12 @@ class VolumeManagementController extends Controller
      */
     public function edit($id)
     {
-       // return view('admin.volume.editQuantity');
+        // return view('admin.volume.editQuantity');
         $volumeData = Volume::find($id);
-     
+
         return view('admin.volume.editQuantity')->with([
             'volumeData' => $volumeData
-        ]);;
+        ]);
     }
 
     /**
@@ -86,15 +85,18 @@ class VolumeManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-       // dd($request->all);
-    
+        // dd($request->all);
 
-       
-     $volumeData = Volume::where('id',$id)->update([
-       'quantity'=>$request->quantity,
-       
-   ]);
-   return redirect('/admin/volume');
+
+
+        $volumeData = Volume::where('id', $id)->update([
+            'quantity' => $request->quantity,
+
+        ]);
+        return redirect('/admin/volume')->with(array(
+            'status' => 'success',
+            'message' => 'Quantity updated successfully',
+        ));
     }
 
     /**
@@ -108,7 +110,7 @@ class VolumeManagementController extends Controller
         Volume::find($id)->delete();
         return redirect('/admin/volume')->with(array(
             'status' => 'success',
-            'message' => 'Image Upload successfully',
+            'message' => 'Quantity deleted successfully',
         ));
     }
 }

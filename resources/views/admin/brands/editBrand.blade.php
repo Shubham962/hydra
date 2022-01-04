@@ -9,19 +9,16 @@
         <input type="hidden" name="brand_id" value="{{$brandData->id}}">
         <div class="page-label">
             <label>Edit Brand</label>
-            <div class="close">
-                <figure>
-                    <img src="{{ asset('public/assets/images/close.png')}}" alt="close">
-                </figure>
-            </div>
+          
             <div class="clearFix">
             </div>
         </div>
-        <div class="uplode-image">
+        <div class="uplode-image">   
             <a href="#">
                 <div>
                     @if($brandData->brands_image !='')
-                    <img src="{{ asset('public/uploads')}}/{{ $brandData->brands_image }}" alt="close">
+                    <input type="file" name="brands_image" id="brands_image">
+                    <img src="{{ asset('public/uploads')}}/{{ $brandData->brands_image }}" alt="close" style="height:100px;width:100px; border-radius: 85px;">
                     @else
                     <input type="file" name="brands_image" id="brands_image">
                     @endif

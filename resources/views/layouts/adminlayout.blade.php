@@ -80,6 +80,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="{{ asset('public/assets/js/bootstrap.min.js')}}"></script>
+  <link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+  <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

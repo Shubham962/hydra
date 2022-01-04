@@ -2,6 +2,12 @@
 @section('content')
 @php $brandsData = DB::table('brands')->get(); @endphp
 <div class="right-content">
+@if(Session::has('status'))
+                <div class="alert alert-{{ Session::get('status') }}">
+                    <i class="ti-user"></i> {{ Session::get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                </div>
+                @endif
     <div class="page-name-label">
         <label>Brands</label>
         <div class="search">
@@ -14,7 +20,7 @@
             </select>
             <a href="{{ URL::to('/admin/brand/create')}}">ADD NEW BRAND/WATER</a>
         </div>
-        <table class="user-tabel brand-tabel">
+        <table class="user-tabel brand-tabel" id="brands_data">
             <thead>
                 <tr>
                     <th>Brand/Water</th>
@@ -28,7 +34,7 @@
                 <tr>
                     <td>
                         @if($brands->brands_image)
-                        <img src="{{ URL::asset('/public/uploads/') }}/{{ $brands->brands_image }}" alt="profilepic">
+                        <img src="{{ URL::asset('/public/uploads/') }}/{{ $brands->brands_image }}" alt="profilepic" style="height:100px;width:100px; border-radius: 85px;">
                         @else
                         <img src="{{ asset('public/assets/images/profile-img.png')}}" alt="profilepic">
                         @endif
@@ -76,6 +82,16 @@
             </tbody>
         </table>
 
+
+        
+
     </div>
 </div>
 @endsection
+@section('pagejs')
+<script>
+	$(document).ready(function() {
+		$('#brands_data').DataTable({order:[]});
+	});
+</script>
+@stop

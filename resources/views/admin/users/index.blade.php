@@ -2,6 +2,12 @@
 @section('content')
 @php $usersData = DB::table('users')->get(); @endphp
 <div class="right-content">
+@if(Session::has('status'))
+                <div class="alert alert-{{ Session::get('status') }}">
+                    <i class="ti-user"></i> {{ Session::get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                </div>
+                @endif
     <div class="page-name-label">
         <label>Users</label>
         <div class="search">
@@ -31,7 +37,7 @@
             <td>{{$users->age }}</td>
             <td>{{$users->height }}</td>
             <td>{{$users->weight }}</td>
-            <td>{{$users->registration_date }}</td>
+            <td>{{$users->created_at }}</td>
             <td>{{$users->status }}</td>
         </tr>
         @endforeach

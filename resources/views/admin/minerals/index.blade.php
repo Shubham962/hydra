@@ -3,6 +3,12 @@
 @section('content')
 @php $mineralsData = DB::table('minerals')->get(); @endphp
 <div class="right-content">
+@if(Session::has('status'))
+                <div class="alert alert-{{ Session::get('status') }}">
+                    <i class="ti-user"></i> {{ Session::get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                </div>
+                @endif
         <div class="page-name-label">
             <label>Minerals</label>
             <div class="search">

@@ -36,20 +36,18 @@ class TypeManagementController extends Controller
      */
     public function store(Request $request)
     {
-     //   dd($request->all());
+        //   dd($request->all());
         $this->validate($request, [
-            'minerals'=> 'required',
+            'minerals' => 'required',
         ]);
 
         Type::create([
-            'minerals'=>$request->minerals,
+            'minerals' => $request->minerals,
         ]);
         return redirect('/admin/type')->with(array(
-            'status'=>'success',
-            'message' => 'Water Type Added Successfully',
+            'status' => 'success',
+            'message' => 'Mineral Added Successfully',
         ));
-
-
     }
 
     /**
@@ -71,7 +69,10 @@ class TypeManagementController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.type.editType');
+        $typeData = Type::find($id);
+        return view('admin.type.editType')->with([
+            'typeData' => $typeData
+        ]);
     }
 
     /**
@@ -83,7 +84,14 @@ class TypeManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $typeData = Type::where('id', $id)->update([
+            'minerals' => $request->minerals,
+
+        ]);
+        return redirect('/admin/type')->with(array(
+            'status' => 'success',
+            'message' => 'Mineral updated successfully',
+        ));
     }
 
     /**
@@ -94,6 +102,10 @@ class TypeManagementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Type::find($id)->delete();
+        return redirect('/admin/type')->with(array(
+            'status' => 'success',
+            'message' => 'Mineral Deleted successfully',
+        ));
     }
 }

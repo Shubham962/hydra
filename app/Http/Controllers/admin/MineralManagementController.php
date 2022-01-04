@@ -47,7 +47,7 @@ class MineralManagementController extends Controller
         ]);
         return redirect('/admin/minerals')->with(array(
             'status'=>'success',
-            'message' => 'Mineral Name Added Successfully',
+            'message' => 'Minerals Added Successfully',
         ));
 
     }
@@ -108,7 +108,7 @@ class MineralManagementController extends Controller
         Minerals::find($id)->delete();
         return redirect('/admin/minerals')->with(array(
             'status' => 'success',
-            'message' => 'Image Upload successfully',
+            'message' => 'Minerals deleted successfully',
         ));
     }
 }
