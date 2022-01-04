@@ -2,6 +2,12 @@
 @section('content')
 @php $water_typeData = DB::table('water_type')->get(); @endphp
 <div class="right-content">
+@if(Session::has('status'))
+                <div class="alert alert-{{ Session::get('status') }}">
+                    <i class="ti-user"></i> {{ Session::get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                </div>
+                @endif
     <div class="page-name-label">
         <label>Water Type</label>
         <div class="search">
@@ -23,11 +29,19 @@
                 </tr>
             </thead>
             <tbody>
-            @if($water_typeData)
+                @if($water_typeData)
                 @foreach($water_typeData as $key =>$water_type)
                 <tr>
                     <td>{{ $water_type->minerals}}</td>
-                    <td class="edit-delete"><a href="#"><img src="{{ asset('public/assets/images/edit.png')}}" alt="edit">Edit</a><a href="#"><img src="{{ asset('public/assets/images/delete.png')}}" alt="delete">Delete</a></td>
+                    <td class="edit-delete"><a href="{{ URL::to('/admin/type/edit')}}/{{ $water_type->id}}">
+                            <img src="{{ asset('public/assets/images/edit.png')}}" alt="edit">
+                            Edit
+                        </a>
+                        <a href="{{ URL::to('/admin/type/delete')}}/{{ $water_type->id}}">
+                            <img src="{{ asset('public/assets/images/delete.png')}}" alt="delete">
+                            Delete
+                        </a>
+                    </td>
                     <td>Active</td>
                 </tr>
                 @endforeach

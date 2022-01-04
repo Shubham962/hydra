@@ -5,6 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use phpDocumentor\Reflection\Types\Nullable;
 
+use function PHPUnit\Framework\MockObject\Builder\after;
+
 class AddMoreColumnToUsersTable extends Migration
 {
     /**
@@ -15,12 +17,12 @@ class AddMoreColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('age')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('height')->nullable();
-            $table->string('weight')->nullable();
-            $table->string('registration_date')->nullable();
-            $table->string('status')->nullable();
+            $table->enum('user_role', ['1','2'])->default('2')->after('id'); 
+            $table->string('age')->nullable()->after('password');            
+            $table->string('gender')->nullable()->after('age');
+            $table->string('height')->nullable()->after('gender');
+            $table->string('weight')->nullable()->after('height');
+            $table->enum('status',['Active','Inactive'])->default('Active')->after('weight');
         });
     }
 
@@ -32,11 +34,11 @@ class AddMoreColumnToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('user_role')->nullable();
             $table->dropColumn('age')->nullable();
             $table->dropColumn('gender')->nullable();
             $table->dropColumn('height')->nullable();
             $table->dropColumn('weight')->nullable();
-            $table->dropColumn('registration_date')->nullable();
             $table->dropColumn('status')->nullable();
         });
     }

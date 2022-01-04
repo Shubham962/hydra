@@ -35,7 +35,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::any('/brand/store', 'admin\BrandManagementController@store');
     Route::get('/type', 'admin\TypeManagementController@index');
     Route::any('/type/create','admin\TypeManagementController@create');
+    Route::get('/type/edit/{id}', 'admin\TypeManagementController@edit');
+    Route::any('/type/update/{id}', 'admin\TypeManagementController@update');
     Route::any('/type/store', 'admin\TypeManagementController@store');
+    Route::any('/type/delete/{id}', 'admin\TypeManagementController@destroy');
     Route::get('/volume', 'admin\VolumeManagementController@index');
     Route::any('/volume/create','admin\VolumeManagementController@create');
     Route::any('/volume/update/{id}', 'admin\VolumeManagementController@update');

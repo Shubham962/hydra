@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\models\Brand;
+use Illuminate\Support\Facades\Validator;
 
 
 class BrandManagementController extends Controller
@@ -38,25 +39,35 @@ class BrandManagementController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $rules = [
             'brand_name' => 'required',
-            'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        if ($request->hasFile('brand_image')) {
-            $image = $request->file('brand_image');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/');
-            $image->move($destinationPath, $name);
-            Brand::create([
-                'brand_name' => $request->brand_name,
-                'brands_image' => $name,
-            ]);
-            return redirect('/admin/brands')->with(array(
-                'status' => 'success',
-                'message' => 'Image Upload successfully',
-            ));
+            'brands_image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
+                if ($request->hasFile('brands_image')) {
+                    $image = $request->file('brands_image');
+                    $imagename = time() . '.' . $image->getClientOriginalExtension();
+                    $destinationPath = public_path('/uploads/');
+                    $image->move($destinationPath, $imagename);
+                    Brand::create([
+                        'brand_name' => $request->brand_name,
+                        'brands_image' => $imagename,
+                    ]);
+                    return redirect('/admin/brands')->with(array(
+                        'status' => 'success',
+                        'message' => 'Image Upload successfully',
+                    ));
+                }
+            } catch (\Exception $e) {
+                return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
+                // return response()->json(['message' => $e], 500);
+            }
+            // dd($brandData);
 
-      
         }
 
         //dd($request->all());
@@ -82,7 +93,7 @@ class BrandManagementController extends Controller
     public function edit($id)
     {
         $brandData = Brand::find($id);
-     
+
         return view('admin.brands.editBrand')->with([
             'brandData' => $brandData
         ]);;
@@ -96,27 +107,41 @@ class BrandManagementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    { 
-        $brandData = Brand::find($id);  
-        //dd($brandData['brands_image']);
-        if ($request->hasFile('brand_image')) {
-            $image = $request->file('brand_image');
-            $imagename = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/');
-            $image->move($destinationPath, $imagename);
-        }else{
-            $imagename = $brandData;
-        }
-       $brandData = Brand::where('id',$id)->update([
-           'brand_name'=>$request->brand_name,
-           'brands_image'=>$brandData['brands_image']
-       ]);
-       return redirect('/admin/brands')->with(array(
-        'status' => 'success',
-        'message' => 'Image Upload successfully',
-    ));
-      // dd($brandData);
+    {
+        $rules = [
+            'brand_name' => 'required',
+            //'brands_image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
+                $brandData = Brand::find($id);
+                //dd($brandData['brands_image']);
+                if ($request->hasFile('brands_image')) {
+                    $image = $request->file('brands_image');
+                    $imagename = time() . '.' . $image->getClientOriginalExtension();
+                    $destinationPath = public_path('/uploads/');
+                    $image->move($destinationPath, $imagename);
+                } else {
+                    $imagename = $brandData['brands_image'];
+                }
+                $brandData = Brand::where('id', $id)->update([
+                    'brand_name' => $request->brand_name,
+                    'brands_image' => $imagename
+                ]);
+                return redirect('/admin/brands')->with(array(
+                    'status' => 'success',
+                    'message' => 'Brand Uploaded successfully',
+                ));
+            } catch (\Exception $e) {
+                return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
+                // return response()->json(['message' => $e], 500);
+            }
+            // dd($brandData);
 
+        }
     }
 
     /**
@@ -130,7 +155,7 @@ class BrandManagementController extends Controller
         Brand::find($id)->delete();
         return redirect('/admin/brands')->with(array(
             'status' => 'success',
-            'message' => 'Image Upload successfully',
+            'message' => 'Brand Deleted successfully',
         ));
     }
 }

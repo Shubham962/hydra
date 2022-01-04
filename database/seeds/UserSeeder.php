@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
         $userData = array(
             array(
                 'id' => 1,
+                'user_role'=>'1',
                 'name' => 'Super Admin',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('Qwert@123'),
