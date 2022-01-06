@@ -43,7 +43,7 @@ class HomeController extends Controller
     }
     public function myAccount(){
         return view('admin.accountSetting');
-        dd(Auth::user());
+        
     }
 
     public function alltype(){
@@ -60,4 +60,6 @@ class HomeController extends Controller
 
         return view('admin.minerals.index');
     }
+
+   
 }

@@ -21,8 +21,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::get('/users', 'HomeController@allUsers');
     Route::get('/my-account', 'HomeController@myAccount');
+    
     Route::get('/waterdirnk', 'HomeController@allwaterdirnk');
     
+    Route::any('/update-account', 'admin\AdminAccountSettingController@myAccountUpdate');
     Route::get('/type', 'HomeController@alltype');
     Route::get('/volume', 'HomeController@allvolume');
     Route::get('/minerals', 'HomeController@allminerals');
