@@ -31,9 +31,9 @@
     <div class="btn-group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @if(Auth::user()->profile_image !='')
-        <img src="{{ URL::to('/public/uploads')}}/{{ Auth::user()->profile_image }}" alt="Profile"><span class="caret">
+        <img src="{{ URL::to('/public/uploads')}}/{{ Auth::user()->profile_image }}" alt="Profile" style="height:50px;width:50px; border-radius: 85px;"><span class="caret">
           @else
-          <img src="{{ URL::to('/public/uploads/download.png')}}" alt="Profile" ><span class="caret"></span>
+          <img src="{{ URL::to('/public/uploads/download.png')}}" alt="Profile" style="height:50px;width:50px; border-radius: 85px;"><span class="caret"></span>
           @endif
       </button>
       <ul class="dropdown-menu">
