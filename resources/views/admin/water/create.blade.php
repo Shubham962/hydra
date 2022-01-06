@@ -3,7 +3,7 @@
 @php 
 $brandsData = DB::table('brands')->get(); 
 $water_typeData = DB::table('water_type')->get(); 
-$volumeData = DB::table('volume')->get(); 
+$mineralsData = DB::table('minerals')->get(); 
 @endphp
 <div class="form-drink">
     <form action="{{ URL::to('/admin/water/store')}}" method="post" enctype="multipart/form-data">
@@ -11,9 +11,9 @@ $volumeData = DB::table('volume')->get();
         <div class="page-name">
             <label>Add New Water Drink</label>
 
-            <div class="close">
+            <!-- <div class="close">
                 <a href="{{ asset('public/assets/waterdrinks.html')}}"><img src="{{ asset('public/assets/images/close.png')}}" alt="Close"></a>
-            </div>
+            </div> -->
             <div class="clearFix">
 
             </div>
@@ -44,13 +44,13 @@ $volumeData = DB::table('volume')->get();
         <div class="addwater Quantity">
             <!-- Single button -->
             <select title="Water Quantity per bottle/glass" name="" id="">
-            @if($brandsData)
-                @foreach($brandsData as $key =>$brands)
-                <option value="kjhkj">jghjg</option>
+            @if($mineralsData)
+                @foreach($mineralsData as $key =>$minerals)
+                <option value="kjhkj">Water Quantity per bottle/glass</option>
                 @endforeach
                 @endif
-            </select> -->
-            <input type="text" name="water_quantity" id="water_quantity">
+            </select>
+         
 
         </div> 
 
