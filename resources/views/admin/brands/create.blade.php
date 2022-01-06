@@ -15,9 +15,9 @@
                     <a>
                         <label>Upload Image (Optional)</label>
                         <div>
-                            <input type="file" name="brands_image" id="brands_image" accept="image/gif, image/jpeg, image/png">
+                            <input type="file" name="brands_image" id="brands_image" accept="image/gif, image/jpeg, image/png" require>
                             @error('brands_image')
-                            <small class="form-control-feedback">{{ $errors->first('brands_image') }}</small>
+                            <span class="form-control">{{ $errors->first('brands_image') }}</span>
                             @enderror
                             <img src="{{ asset('public/assets/images/uplode-image.png')}}" alt="uplode image">
                         </div>
@@ -25,9 +25,9 @@
                     </a>
                 </div>
                 <div class="brand-name">
-                    <input type="text" name='brand_name' placeholder="Brand Name">
+                    <input type="text" name='brand_name' placeholder="Brand Name" require>
                     @error('brand_name')
-                    <small class="form-control-feedback">{{ $errors->first('brand_name') }}</small>
+                    <span class="form-control">{{ $errors->first('brand_name') }}</span>
                     @enderror
                 </div>
                 <div class="brand-Add">

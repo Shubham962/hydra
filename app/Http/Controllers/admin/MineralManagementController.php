@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\models\Minerals;
+use Illuminate\Support\Facades\Validator;
 
 class MineralManagementController extends Controller
 {
@@ -36,20 +37,26 @@ class MineralManagementController extends Controller
      */
     public function store(Request $request)
     {
-//dd($request->all());
-
-        $this->validate($request, [
-            'minerals_name'=> 'required',
-        ]);
-
-        Minerals::create([
-            'minerals_name'=>$request->minerals_name,
-        ]);
-        return redirect('/admin/minerals')->with(array(
-            'status'=>'success',
-            'message' => 'Minerals Added Successfully',
-        ));
-
+        //dd($request->all());
+        $rules = [
+            'minerals_name' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
+                Minerals::create([
+                    'minerals_name' => $request->minerals_name,
+                ]);
+                return redirect('/admin/minerals')->with(array(
+                    'status' => 'success',
+                    'message' => 'Minerals Added Successfully',
+                ));
+            } catch (\Exception $e) {
+                return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
+            }
+        }
     }
 
     /**
@@ -71,9 +78,9 @@ class MineralManagementController extends Controller
      */
     public function edit($id)
     {
-        
+
         $mineralsData = Minerals::find($id);
-     
+
         return view('admin.minerals.editMineralname')->with([
             'mineralsData' => $mineralsData
         ]);;
@@ -88,14 +95,27 @@ class MineralManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-       // dd($request->all);
-       $mineralsData = Minerals::where('id',$id)->update([
-        'minerals_name'=>$request->minerals_name,
-        
-    ]);
-    return redirect('/admin/minerals');
-     }
-    
+        $rules = [
+            'minerals_name' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
+                $mineralsData = Minerals::where('id', $id)->update([
+                    'minerals_name' => $request->minerals_name,
+                ]);
+                return redirect('/admin/minerals')->with(array(
+                    'status' => 'success',
+                    'message' => 'Minerals updated successfully',
+                ));
+            } catch (\Exception $e) {
+                return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
+            }
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.

@@ -36,7 +36,7 @@ class BrandManagementController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     */  
     public function store(Request $request)
     {
         $rules = [
@@ -110,6 +110,7 @@ class BrandManagementController extends Controller
     {
         $rules = [
             'brand_name' => 'required',
+            'brands_image' => 'required',
             //'brands_image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
         ];
         $validator = Validator::make($request->all(), $rules);

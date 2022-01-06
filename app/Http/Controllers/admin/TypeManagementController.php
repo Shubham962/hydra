@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\models\Type;
+use Illuminate\Support\Facades\Validator;
 
 class TypeManagementController extends Controller
 {
@@ -36,18 +37,26 @@ class TypeManagementController extends Controller
      */
     public function store(Request $request)
     {
-        //   dd($request->all());
-        $this->validate($request, [
+        $rules = [
             'minerals' => 'required',
-        ]);
+        ];
 
-        Type::create([
-            'minerals' => $request->minerals,
-        ]);
-        return redirect('/admin/type')->with(array(
-            'status' => 'success',
-            'message' => 'Mineral Added Successfully',
-        ));
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
+                Type::create([
+                    'minerals' => $request->minerals,
+                ]);
+                return redirect('/admin/type')->with(array(
+                    'status' => 'success',
+                    'message' => 'Mineral Added Successfully',
+                ));
+            } catch (\Exception $e) {
+                return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
+            }
+        }
     }
 
     /**
@@ -84,14 +93,28 @@ class TypeManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $typeData = Type::where('id', $id)->update([
-            'minerals' => $request->minerals,
+        $rules = [
+            'minerals' => 'required',
+        ];
 
-        ]);
-        return redirect('/admin/type')->with(array(
-            'status' => 'success',
-            'message' => 'Mineral updated successfully',
-        ));
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
+                $typeData = Type::where('id', $id)->update([
+                    'minerals' => $request->minerals,
+
+                ]);
+                return redirect('/admin/type')->with(array(
+                    'status' => 'success',
+                    'message' => 'Mineral updated successfully',
+                ));
+            } catch (\Exception $e) {
+                return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
+                // return response()->json(['message' => $e], 500);
+            }
+        }
     }
 
     /**

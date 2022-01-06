@@ -7,15 +7,18 @@
     <div class="page-name">
         <label>Add New Mineral</label>
 
-        <div class="close">
+        <!-- <div class="close">
             <a href="./waterdrinks.html"><img src="{{ asset('public/assets/images/close.png')}}" alt="Close"></a>
-        </div>
+        </div> -->
         <div class="clearFix">
 
         </div>
     </div>
     <div class="type">
-        <input type="text" name="minerals_name" placeholder="Mineral Name">
+        <input type="text" name="minerals_name" id="minerals_name" placeholder="Mineral Name">
+        @error('minerals_name')
+            <span class="form-control">{{ $errors->first('minerals_name') }}</span>
+            @enderror
     </div>
     <div class="add-drink water-type-btn">
     <button type="submit">

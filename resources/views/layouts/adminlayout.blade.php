@@ -30,7 +30,11 @@
     <!-- Single button -->
     <div class="btn-group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <img src="{{ asset('public/assets/images/profile-img.png')}}" alt="Profile"><span class="caret"></span>
+        @if(Auth::user()->profile_image !='')
+        <img src="{{ URL::to('/public/uploads')}}/{{ Auth::user()->profile_image }}" alt="Profile"><span class="caret">
+          @else
+          <img src="{{ URL::to('/public/uploads/download.png')}}" alt="Profile" ><span class="caret"></span>
+          @endif
       </button>
       <ul class="dropdown-menu">
         <li>

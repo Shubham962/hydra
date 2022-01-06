@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\models\Volume;
+use Illuminate\Support\Facades\Validator;
 
 class VolumeManagementController extends Controller
 {
@@ -36,17 +37,27 @@ class VolumeManagementController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $rules = [
             'quantity' => 'required',
-        ]);
+        ];
 
-        Volume::create([
-            'quantity' => $request->quantity,
-        ]);
-        return redirect('/admin/volume')->with(array(
-            'status' => 'success',
-            'message' => 'Quantity Added Successfully',
-        ));
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
+
+                Volume::create([
+                    'quantity' => $request->quantity,
+                ]);
+                return redirect('/admin/volume')->with(array(
+                    'status' => 'success',
+                    'message' => 'Quantity Added Successfully',
+                ));
+            } catch (\Exception $e) {
+                return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
+            }
+        }
     }
 
     /**
@@ -87,16 +98,28 @@ class VolumeManagementController extends Controller
     {
         // dd($request->all);
 
+        $rules = [
+            'quantity' => 'required',
+        ];
 
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
 
-        $volumeData = Volume::where('id', $id)->update([
-            'quantity' => $request->quantity,
+                $volumeData = Volume::where('id', $id)->update([
+                    'quantity' => $request->quantity,
 
-        ]);
-        return redirect('/admin/volume')->with(array(
-            'status' => 'success',
-            'message' => 'Quantity updated successfully',
-        ));
+                ]);
+                return redirect('/admin/volume')->with(array(
+                    'status' => 'success',
+                    'message' => 'Quantity updated successfully',
+                ));
+            } catch (\Exception $e) {
+                return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
+            }
+        }
     }
 
     /**

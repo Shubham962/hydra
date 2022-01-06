@@ -11,7 +11,10 @@
             </div>
         </div>
         <div class="type">
-            <input type="text" name="quantity" placeholder="Quantity">
+            <input type="text" name="quantity" id="quantity" placeholder="Quantity">
+            @error('quantity')
+            <span class="form-control">{{ $errors->first('quantity') }}</span>
+            @enderror
         </div>
         <div class="add-drink water-type-btn">
             <button type="submit">
