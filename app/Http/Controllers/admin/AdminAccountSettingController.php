@@ -6,23 +6,40 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\models\WaterType;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class AdminAccountSettingController extends Controller
 {
 
     public function myAccountUpdate(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $rules = [
-            'current_password' => 'required',
-            'password' => 'required|confirmed|min:6',
+            'current_password'=> ['required'],
+            'password' => ['required', 'string', 'confirmed'],
+            //'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         } else {
             try {
-                dd($request->all());
+                $db_password = Auth::user()->password;
+                if (Hash::check($request->current_password, $db_password)) {
+                    $editData = app('App\User')->where('id', Auth::user()->id)->update([
+                        'password' => Hash::make($request->password),
+                    ]);
+                    return redirect('/admin/my-account')->with(array(
+                        'status' => 'success',
+                        'message' => 'Password Updated successfully',
+                    ));
+                    
+                }else{
+                    return back()->with(array('status' => 'danger', 'message' =>  "Current Password Not matched!"));
+                }
+                
             } catch (\Exception $e) {
                 return back()->with(array('status' => 'danger', 'message' =>  $e->getMessage()));
                 // return response()->json(['message' => $e], 500);
@@ -31,10 +48,10 @@ class AdminAccountSettingController extends Controller
 
         }
 
-        return redirect('/admin/my-account')->with(array(
-            'status' => 'success',
-            // 'message' => 'Image Upload successfully',
-        ));
+        // return redirect('/admin/my-account')->with(array(
+        //     'status' => 'success',
+        //     // 'message' => 'Image Upload successfully',
+        // ));
     }
     /**
      * Display a listing of the resource.

@@ -1,6 +1,6 @@
 @extends('layouts.adminlayout')
 @section('content')
-@php $usersData = DB::table('users')->get(); @endphp
+@php $usersData = DB::table('users')->where('user_role','!=','1')->get(); @endphp
 <div class="right-content">
 @if(Session::has('status'))
                 <div class="alert alert-{{ Session::get('status') }}">
@@ -31,7 +31,7 @@
         @if($usersData)
             @foreach($usersData as $key =>$users)
         <tr>
-            <td><img src="{{ asset('public/assets/images/profile-img.png')}}" alt="profilepic">{{$users->name }}</td>
+            <td><img src="{{ URL::to('/public/uploads')}}/{{ Auth::user()->profile_image }}" alt="profilepic" style="height:100px;width:100px; border-radius: 85px;">{{$users->name }}</td>
             <td>{{$users->email }}</td>
             <td>{{$users->gender }}</td>
             <td>{{$users->age }}</td>

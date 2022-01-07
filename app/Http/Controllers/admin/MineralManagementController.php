@@ -80,6 +80,7 @@ class MineralManagementController extends Controller
     {
 
         $mineralsData = Minerals::find($id);
+      
 
         return view('admin.minerals.editMineralname')->with([
             'mineralsData' => $mineralsData

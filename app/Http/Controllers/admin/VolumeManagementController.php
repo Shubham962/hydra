@@ -79,8 +79,9 @@ class VolumeManagementController extends Controller
      */
     public function edit($id)
     {
-        // return view('admin.volume.editQuantity');
         $volumeData = Volume::find($id);
+        
+        
 
         return view('admin.volume.editQuantity')->with([
             'volumeData' => $volumeData
