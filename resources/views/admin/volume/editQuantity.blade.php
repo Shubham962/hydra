@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="type">
-            <input type="text" name="quantity" id="quantity" placeholder="Quantity">
+            <input type="text" name="quantity" id="quantity" placeholder="Quantity" value="{{ $volumeData->quantity }}">
             @error('quantity')
             <span class="form-control">{{ $errors->first('quantity') }}</span>
             @enderror

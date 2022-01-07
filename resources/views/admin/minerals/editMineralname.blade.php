@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="type">
-            <input type="text" name="minerals_name" id="minerals_name" placeholder="Mineral Name">
+            <input type="text" name="minerals_name" id="minerals_name" placeholder="Mineral Name" value="{{ $mineralsData->minerals_name }}">
             @error('minerals_name')
             <span class="form-control">{{ $errors->first('minerals_name') }}</span>
             @enderror

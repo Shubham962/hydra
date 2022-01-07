@@ -27,6 +27,12 @@
                 <label>{{Auth::user()->email}}</label>
             </div>
         </div>
+        @if(Session::has('status'))
+        <div class="alert alert-{{ Session::get('status') }}">
+            <i class="fa fa-building-o" aria-hidden="true"></i> {{ Session::get('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+        </div>
+        @endif
         <div class="Update-Password profile-details">
             <form action="{{ URL::to('/admin/update-account')}}" method="post" enctype="multipart/form-data" id="signup-form">
                 @csrf
@@ -38,12 +44,17 @@
                     <input type="password" name="current_password" placeholder="Current Password" required>
                 </div>
                 <div class="new-Password-label">
-                    <input type="password" name="password" id="password_reg" placeholder="New Password" required>
-                    <span class="glyphicon form-control-feedback" id="password_reg1">
-                    <input type="password" name="confirmed" id="confirmPassword" placeholder="Confirm New Password" required>
-                    <span class="glyphicon form-control-feedback" id="confirmPassword1">
+                    <input type="password" name="password" id="password_reg" class="form-control @error('password') is-invalid @enderror" placeholder="New Password" required>
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                    <!-- <span class="glyphicon form-control-feedback" id="password_reg1"> -->
+                    <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Confirm New Password" required>
+                    <!-- <span class="glyphicon form-control-feedback" id="confirmPassword1"> -->
                     <div class="clearFix">
-                      
+
                     </div>
                 </div>
                 <div class="save-btn">
@@ -61,68 +72,67 @@
     var value = $("#password_reg").val();
 
     $.validator.addMethod("checklower", function(value) {
-      return /[a-z]/.test(value);
+        return /[a-z]/.test(value);
     });
     $.validator.addMethod("checkupper", function(value) {
-      return /[A-Z]/.test(value);
+        return /[A-Z]/.test(value);
     });
     $.validator.addMethod("checkdigit", function(value) {
-      return /[0-9]/.test(value);
+        return /[0-9]/.test(value);
     });
     $.validator.addMethod("pwcheck", function(value) {
-      return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[A-Z]/.test(value);
+        return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[A-Z]/.test(value);
     });
 
     $('#signup-form').validate({
-      rules: {
-        password: {
-          minlength: 6,
-          maxlength: 30,
-          required: true,
-          pwcheck: true,
-          checklower: true,
-          checkupper: true,
-          checkdigit: true
+        rules: {
+            password: {
+                minlength: 6,
+                maxlength: 30,
+                required: true,
+                pwcheck: true,
+                checklower: true,
+                checkupper: true,
+                checkdigit: true
+            },
+            confirmPassword: {
+                equalTo: "#password_reg",
+            },
         },
-        confirmPassword: {
-          equalTo: "#password_reg",
+        messages: {
+            password: {
+                pwcheck: "Password is not strong enough",
+                checklower: "Need atleast 1 lowercase alphabet",
+                checkupper: "Need atleast 1 uppercase alphabet",
+                checkdigit: "Need atleast 1 digit"
+            }
         },
-      },
-      messages: {
-        password: {
-          pwcheck: "Password is not strong enough",
-          checklower: "Need atleast 1 lowercase alphabet",
-          checkupper: "Need atleast 1 uppercase alphabet",
-          checkdigit: "Need atleast 1 digit"
+        highlight: function(element) {
+            var id_attr = "#" + $(element).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            $('.form-group').css('margin-bottom', '5px');
+            $('.form').css('padding', '30px 40px');
+            $('.tab-group').css('margin', '0 0 25px 0');
+            $('.help-block').css('display', '');
+        },
+        unhighlight: function(element) {
+            var id_attr = "#" + $(element).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            $('#confirmPassword').attr('disabled', false);
+        },
+        errorElement: 'span',
+        errorClass: 'validate_cus',
+        errorPlacement: function(error, element) {
+            x = element.length;
+            if (element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
         }
-      },
-      highlight: function(element) {
-        var id_attr = "#" + $(element).attr("id") + "1";
-        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-        $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
-        $('.form-group').css('margin-bottom', '5px');
-        $('.form').css('padding', '30px 40px');
-        $('.tab-group').css('margin', '0 0 25px 0');
-        $('.help-block').css('display', '');
-      },
-      unhighlight: function(element) {
-        var id_attr = "#" + $(element).attr("id") + "1";
-        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-        $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
-        $('#confirmPassword').attr('disabled', false);
-      },
-      errorElement: 'span',
-      errorClass: 'validate_cus',
-      errorPlacement: function(error, element) {
-        x = element.length;
-        if (element.length) {
-          error.insertAfter(element);
-        } else {
-          error.insertAfter(element);
-        }
-      }
 
     });
-  </script>
-
+</script>
 @endsection
